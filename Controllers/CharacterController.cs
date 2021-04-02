@@ -1,6 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using mywebapi.Models;
+using mywebapi.Services.CharacterService;
 
 namespace mywebapi.Controllers
 {
@@ -8,16 +9,28 @@ namespace mywebapi.Controllers
     [Route("[controller]")]
     public class CharacterController : ControllerBase
     {
-        private static List<Character> characters = new List<Character> {
-            new Character(),
-            new Character { Name = "Sam" }
-        };
-
-        [HttpGet]
-        public IActionResult Get()
+        private readonly ICharacterService _characterService;
+        public CharacterController(ICharacterService characterService)
         {
-            return Ok(characters);
+            _characterService = characterService;
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(_characterService.GetAllCharacters());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(_characterService.GetCharacterById(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCharacter(Character character)
+        {
+            return Ok(_characterService.AddCharacter(character));
+        }
     }
 }
