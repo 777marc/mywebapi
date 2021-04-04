@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using mywebapi.Dtos.Character;
 using mywebapi.Models;
 using mywebapi.Services.CharacterService;
 
@@ -18,19 +19,25 @@ namespace mywebapi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get()
         {
-            return Ok(_characterService.GetAllCharacters());
+            return Ok(await _characterService.GetAllCharacters());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(_characterService.GetCharacterById(id));
+            return Ok(await _characterService.GetCharacterById(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCharacter(Character character)
+        public async Task<IActionResult> AddCharacter(AddCharacterDto character)
         {
-            return Ok(_characterService.AddCharacter(character));
+            return Ok(await _characterService.AddCharacter(character));
+        }
+
+        [HttpPut()]
+        public async Task<IActionResult> UpdateCharacter([FromBody]AddCharacterDto character)
+        {
+            return Ok(await _characterService.UpdateCharacter(character));
         }
     }
 }
