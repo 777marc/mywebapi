@@ -13,6 +13,6 @@ namespace mywebapi.Services.CharacterService
 
         Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto character);
 
-        Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(AddCharacterDto character);
+        Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto character);
     }
 }

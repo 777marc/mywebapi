@@ -44,10 +44,21 @@ namespace mywebapi.Services.CharacterService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(AddCharacterDto character)
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             
+            Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+
+            character.Name = updatedCharacter.Name;
+            character.Class = updatedCharacter.Class;
+            character.Defense = updatedCharacter.Defense;
+            character.Intelligence = updatedCharacter.Intelligence;
+            character.Strength = updatedCharacter.Strength;
+            character.HitPoints = updatedCharacter.HitPoints;
+
+            serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+
             return serviceResponse;
         }
     }

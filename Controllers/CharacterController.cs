@@ -34,8 +34,8 @@ namespace mywebapi.Controllers
             return Ok(await _characterService.AddCharacter(character));
         }
 
-        [HttpPut()]
-        public async Task<IActionResult> UpdateCharacter([FromBody]AddCharacterDto character)
+        [HttpPut]
+        public async Task<IActionResult> UpdateCharacter([FromBody]UpdateCharacterDto character)
         {
             return Ok(await _characterService.UpdateCharacter(character));
         }
