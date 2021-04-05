@@ -37,7 +37,17 @@ namespace mywebapi.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCharacter([FromBody]UpdateCharacterDto character)
         {
-            return Ok(await _characterService.UpdateCharacter(character));
+            ServiceResponse<GetCharacterDto> response = await _characterService.UpdateCharacter(character);
+            if(response.Data == null) {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCharacter(int id)
+        {
+            return Ok(await _characterService.DeleteCharacter(id));
         }
     }
 }

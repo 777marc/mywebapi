@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,16 +49,43 @@ namespace mywebapi.Services.CharacterService
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             
-            Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+            try {
 
-            character.Name = updatedCharacter.Name;
-            character.Class = updatedCharacter.Class;
-            character.Defense = updatedCharacter.Defense;
-            character.Intelligence = updatedCharacter.Intelligence;
-            character.Strength = updatedCharacter.Strength;
-            character.HitPoints = updatedCharacter.HitPoints;
+                Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                
+                character.Name = updatedCharacter.Name;
+                character.Class = updatedCharacter.Class;
+                character.Defense = updatedCharacter.Defense;
+                character.Intelligence = updatedCharacter.Intelligence;
+                character.Strength = updatedCharacter.Strength;
+                character.HitPoints = updatedCharacter.HitPoints;
 
-            serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+                serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+
+            }
+            catch(Exception ex) {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            } 
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+        {
+            ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+
+            try {
+
+                Character character = characters.First(c => c.Id == id);
+                characters.Remove(character);
+                serviceResponse.Data = (characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
+
+            }
+            catch(Exception ex) {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            } 
 
             return serviceResponse;
         }
